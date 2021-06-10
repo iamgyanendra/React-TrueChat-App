@@ -1,6 +1,6 @@
-import React, {useRef, useState, useEffect} from 'react'
+import React, { useState, useEffect} from 'react'
 import { useHistory} from 'react-router-dom';
-import {Avatar, ChatEngine} from 'react-chat-engine';
+import {ChatEngine} from 'react-chat-engine';
 import {auth} from '../firebase';
 
 import { useAuth } from '../contexts/AuthContext'
@@ -30,7 +30,7 @@ const Chats = ()=>{
 
         axios.get('https://api.chatengine.io/users/me/', {
             headers: {
-                "project-id": "7f28bc95-75da-4f43-8b9f-4ae185222847",
+                "project-id": process.env.REACT_APP_CHAT_ENGINE_ID,
                 "user-name" : user.email,
                 "user-secret" : user.uid
             }
@@ -48,7 +48,7 @@ const Chats = ()=>{
 
                     axios.post ('https://api.chatengine.io/users',
                         formdata,
-                        {headers: {"private-key" : "f6ad2483-ae52-4b74-b42a-805d524592c3"}}
+                        {headers: {"private-key" : process.env.REACT_APP_CHAT_ENGINE_KEY}}
                     )
                     .then(() => setLoading(false))
                     .catch(e => console.log('e', e.response))
@@ -72,7 +72,7 @@ const Chats = ()=>{
 
             <ChatEngine
                 height="calc(100vh - 66px)"
-                projectID="7f28bc95-75da-4f43-8b9f-4ae185222847"
+                projectID={process.env.REACT_APP_CHAT_ENGINE_ID}
                 userName={user.email}
                 userSecret={user.uid}
             />
